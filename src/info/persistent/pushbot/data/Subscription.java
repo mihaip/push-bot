@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
@@ -42,12 +43,15 @@ public class Subscription {
   private Link feedUrl;
   
   @Persistent(defaultFetchGroup = "true")
+  @Extension(vendorName = "datanucleus", key = "gae.unindexed", value="true")
   private Link hubUrl;
   
   @Persistent
+  @Extension(vendorName = "datanucleus", key = "gae.unindexed", value="true")
   private String title;
   
   @Persistent(defaultFetchGroup = "true")
+  @Extension(vendorName = "datanucleus", key = "gae.unindexed", value="true")
   private Set<String> seenEntryIds;
   
   public Subscription(JID user, URL feedUrl, URL hubUrl, String title) {
