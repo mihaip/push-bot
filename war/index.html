@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>PuSH Bot</title>
+  <style type="text/css">
+    body, html {
+      padding: 0;
+      margin: 0;
+    }
+    
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 13px;
+    }
+    
+    #header {
+      background: #eee;
+      border-bottom: solid 1px #ccc;
+      padding: .5em;
+      text-align: center;
+    }
+    
+    #header h1 {
+      margin: 0;
+    }
+    
+    #content,
+    #footer {
+      margin: 0 .5em;
+    }
+    
+    #footer {
+      margin-top: 3em;
+      color: #666;
+    }
+  </style>
+  <script type="text/javascript">
+    function printEmail(opt_anchorText) {
+      var a = [109, 105, 104, 97, 105, 64, 112, 101, 114, 115, 105, 115, 116,
+          101, 110, 116, 46, 105, 110, 102, 111];
+      var b = [];
+      for (var i = 0; i < a.length; i++) {
+        b.push(String.fromCharCode(a[i]));
+      }
+      b = b.join('');
+      document.write('<' + 'a href="mailto:' + b + '">' + 
+                     (opt_anchorText || b) + 
+                     '<' + '/a>');
+    }
+  </script>
+</head>
+<body>
+
+<div id="header">
+  <h1>PuSH Bot</h1>
+  <div id="subtitle">A PubSubHubbub to XMPP Gateway</div>
+</div>
+
+<div id="content">
+
+<p>PuSH Bot lets you receive notifications via XMPP of updates to feeds that support <a href="pubsubhubbub.googlecode.com/">PubSubHubbub</a> (commonly abbreviated to PuSH). This means that you can receive updates from <a href="http://buzz.blogger.com/2009/08/blogger-joins-hubbub.html">Blogger</a>, <a href="http://everything.typepad.com/blog/2009/09/real-time-web-pushing-your-blogs.html">TypePad</a>, <a href="http://plugins.movabletype.org/pubsubhubbub/">Movable Type</a> and <a href="http://community.livejournal.com/changelog/7568973.html">LiveJournal</a> blogs, <A href="http://googlereader.blogspot.com/2009/08/pubsubhubbub-support-for-reader-shared.html">Google Reader shared items</a>, <a href="http://adsenseforfeeds.blogspot.com/2009/07/whats-all-hubbub-about-pubsubhubbub.html">any FeedBurner feed</a> and many other sources to <a href="http://www.google.com/talk">Google Talk</a> or any other Jabber/XMPP account.</p>
+
+<h2>Basic Usage</h2>
+
+<h3>Subscribing</h3>
+
+<ol>
+<li>Add <b>push-bot@appspot.com</b> to your contact list.</li>
+<li>Send it a subscription message by using the <code>/subscribe</code> command: <b>/subscribe <i>http://example.com/feed.xml</i></b></li>
+<li>If all goes well, you should see a confirmation message like <b>Subscribed to <i>http://example.com/feed.xml</i></b></li>
+<li>Whenever that feed updates, you'll get a notification of the form:<br>
+<b>Update from Some Feed:<br>
+&nbsp;&nbsp;Post Title Goes Here: <a href="http://www.example.com/post.html">http://www.example.com/post.html</a></b>
+</li>
+</ol>
+
+<p>Note that you do not have to specify a feed URL, if you instead use a webpage URL, PuSH Bot will attempt to look for an auto-discovery element in it, and if it finds a feed, subscribe to that instead.</p>
+
+<p>To see all of the feeds you're subscribed to, send the bot the <code>/list-subscriptions</code> command.</p>
+
+<h3>Unsubscribing</h3>
+
+<p>To unsubscribe from a feed, send the bot the <code>/unsubscribe</code> command: <b>/unsubscribe <i>http://example.com/feed.xml</i></b>. If you'd like to unsubscribe from all feeds, you can use the <code>/unsubscribe-all</code> command.</p>
+
+<h2>Advanced Usage</h2>
+
+To see a list of all commands that PuSH Bot supports, you can use the <code>/help</code> command.
+
+<h3>OPML Import</h3>
+
+<p>If you'd like to subscribe to many feeds at once, you may find it convenient to generate an <a href="http://en.wikipedia.org/wiki/OPML">OPML file</a> from your existing feed reader and import that. Assuming your OPML file is reacheable at a URL, you can use the <code>/opml-import</code> command: <b>/opml-import <i>http://example.com/opml.xml</i></b>. PuSH Bot will parse the OPML file and extract all feeds URLs from it, and will attempt to subscribe to each one. Note that large OPML files may not be imported completely since the request may time out before all subscribe requests are issued.</p>
+
+<h3>Using in conjunction with Partychat</h3>
+
+<p>If you are using <a href="http://partychapp.appspot.com/">Partychat</a> (in its App Engine incarnation known as Partychapp) then you can invite PuSH Bot to a room and have it notify you of feed updates there. There are two steps to the process:</p>
+
+<ol>
+<li>In the room that you wish PuSH Bot to join, issue the <b>/invite push-bot@appengine.com</b> command.</li>
+<li>Separately, send a message to PuSH Bot saying <b>/join-partychat <i>roomname</i>@partychapp.appspotchat.com</b> (replacing <i>roomname</i> as appropriate. If it all goes well, the bot should appear in the room and announce that it joined.</li>
+</ol>
+
+<p>Once the bot is in the room, you can address it by prefixing your message with <b>"push-bot: "</b>, for example <b>push-bot: /subscribe <i>http://example.com/feed.xml</i></b> (this is so that PuSH doesn't get mixed up between Partychat commands and ones meant for it).</p>
+
+</div>
+
+<div id="footer">
+  <a href="http://code.google.com/p/partychapp/source/browse/#svn/trunk/pushbot">Code is available</a>. PuSH Bot was created by <a href="http://blog.persistent.info">Mihai
+Parparita</a>, I can be reached at <script type="text/javascript">printEmail();
+</script>.
+</div>
+
+</body>
+</html>

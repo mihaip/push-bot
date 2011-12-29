@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  <servlet>
+    <servlet-name>xmppreceiver</servlet-name>
+    <servlet-class>info.persistent.pushbot.XmppReceiverServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>pushsubscriber</servlet-name>
+    <servlet-class>info.persistent.pushbot.PushSubscriberServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>xmppreceiver</servlet-name>
+    <url-pattern>/_ah/xmpp/message/chat/</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>pushsubscriber</servlet-name>
+    <url-pattern>/push-subscriber/*</url-pattern>
+  </servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+</web-app>
