@@ -65,10 +65,7 @@ public class Hubs {
     writer.write("hub.callback=" + Urls.encode(callbackUrl));
     writer.write("&hub.mode=" + verb);
     writer.write("&hub.topic=" + Urls.encode(feedUrl.toString()));
-    // We can use either synchronous or asynchronous, but since we want to 
-    // return as quickly as possible lest we run into App Engine timeouts, we
-    // use asynchronous verification.
-    writer.write("&hub.verify=async");
+    writer.write("&hub.verify=sync");
     // TODO(mihaip): Actually use a verification token.
     writer.write("&hub.verify_token=");
   }
