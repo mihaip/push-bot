@@ -10,6 +10,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
   </servlet>
 
   <servlet>
+    <servlet-name>xmpperror</servlet-name>
+    <servlet-class>info.persistent.pushbot.XmppErrorServlet</servlet-class>
+  </servlet>
+
+  <servlet>
     <servlet-name>pushsubscriber</servlet-name>
     <servlet-class>info.persistent.pushbot.PushSubscriberServlet</servlet-class>
   </servlet>
@@ -17,6 +22,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
   <servlet-mapping>
     <servlet-name>xmppreceiver</servlet-name>
     <url-pattern>/_ah/xmpp/message/chat/</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>xmpperror</servlet-name>
+    <!-- The docs say that this is the error servlet path ... -->
+    <url-pattern>/_ah/xmpp/error/</url-pattern>
+    <!-- ...but we're actually getting error notifications on this path -->>
+    <url-pattern>/_ah/xmpp/message/error/</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>
