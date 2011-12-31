@@ -55,7 +55,7 @@ public class XmppReceiverServlet extends HttpServlet {
       body = partychatMatcher.replaceFirst("");
     }
     
-    String[] bodyPieces = body.split("\\s+", 2);
+    String[] bodyPieces = body.split("\\s+");
 
     String commandName = bodyPieces[0];
     String[] args = Arrays.copyOfRange(bodyPieces, 1, bodyPieces.length);

@@ -32,7 +32,12 @@ public enum Command {
       " _URL_",
       "Subscribe to all of the feed URLs in the given OPML file.",
       new OpmlImportCommandHandler()),
-  HELP("help", "", "This message", new HelpCommandHandler());
+  HELP("help", "", "This message", new HelpCommandHandler()),
+  ADMIN_UNSUBSCRIBE(
+    "admin-unsubscribe",
+    " _URL_ _JID_",
+    "Remove the given user's subscription .",
+    new AdminUnsubscribeCommandHandler());
   
   private final String name;
   private final String argSample;
