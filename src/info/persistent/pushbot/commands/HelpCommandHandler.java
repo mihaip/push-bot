@@ -15,10 +15,11 @@ public class HelpCommandHandler implements CommandHandler {
             + "PubSubHubbub-enabled feed updates in realtime. Possible commands:");
 
     for (Command command : Command.values()) {
-      if (command.getHandler() instanceof AdminCommandHandler) {
+      if (command.getHandler() instanceof AdminCommandHandler &&
+          !AdminCommandHandler.isAdmin(user)) {
         continue;
       }
-      message.append("\n  /" + command.getName() + command.getArgSample() + ": "
+      message.append("\n  /" + command.getName() + command.getArgSample() + " : "
           + command.getDescription());
     }
 

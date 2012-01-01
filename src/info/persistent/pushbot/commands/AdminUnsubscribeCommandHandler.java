@@ -43,19 +43,21 @@ public class AdminUnsubscribeCommandHandler extends AdminCommandHandler {
     final List<Subscription> subscriptions =
         Subscription.getSubscriptionsForUserAndFeedUrl(targetUser, feedUrl);
       
-      if (subscriptions.isEmpty()) {
-        Xmpp.sendMessage(adminUser, "No subscriptions match.");
+    if (subscriptions.isEmpty()) {
+      Xmpp.sendMessage(adminUser, "No subscriptions match.");
+    }
+    
+    for (Subscription subscription : subscriptions) {
+      Hubs.sendRequestToHub(targetUser, subscription.getHubUrl(), feedUrl, false);
+    }
+    
+    Persistence.withManager(new Persistence.Closure() {
+      @Override public void run(PersistenceManager manager) {
+        manager.deletePersistentAll(subscriptions);
       }
-      
-      for (Subscription subscription : subscriptions) {
-        Hubs.sendRequestToHub(targetUser, subscription.getHubUrl(), feedUrl, false);
-      }
-      
-      Persistence.withManager(new Persistence.Closure() {
-        @Override public void run(PersistenceManager manager) {
-          manager.deletePersistentAll(subscriptions);
-        }
-      });    
+    });
+    
+    Xmpp.sendMessage(adminUser, "Removed " + subscriptions.size() + " subscriptions.");
   }
 
 }

@@ -34,11 +34,15 @@ public enum Command {
       new OpmlImportCommandHandler()),
   HELP("help", "", "This message", new HelpCommandHandler()),
   ADMIN_UNSUBSCRIBE(
-    "admin-unsubscribe",
-    " _URL_ _JID_",
-    "Remove the given user's subscription .",
-    new AdminUnsubscribeCommandHandler());
-  
+      "admin-unsubscribe",
+      " _JID_ _URL_",
+      "Remove the given user's subscription.",
+      new AdminUnsubscribeCommandHandler()),
+  ADMIN_UNSUBSCRIBE_ALL(
+      "admin-unsubscribe-all",
+      " _JID_",
+      "Remove all of the given user's subscriptions.",
+      new AdminUnsubscribeAllCommandHandler());  
   private final String name;
   private final String argSample;
   private final String description;

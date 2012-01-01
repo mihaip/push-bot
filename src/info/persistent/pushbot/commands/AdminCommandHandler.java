@@ -12,10 +12,14 @@ import java.util.Arrays;
  * Base class for commands that require administrator access.
  */
 public abstract class AdminCommandHandler implements CommandHandler {
+  
+  public static boolean isAdmin(JID user) {
+    return Xmpp.toShortJid(user).getId().equals("mihai.parparita@gmail.com");
+  }
 
   @Override
   public void handle(JID adminUser, String... args) {
-    if (!Xmpp.toShortJid(adminUser).getId().equals("mihai.parparita@gmail.com")) {
+    if (!isAdmin(adminUser)) {
       Xmpp.sendMessage(adminUser, "You're not an administrator");
       return;
     }
