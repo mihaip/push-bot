@@ -11,5 +11,8 @@
   <inbound-services>
     <service>xmpp_message</service>
   </inbound-services>	
+  
+  <!-- Enable concurrent requests -->
+  <threadsafe>true</threadsafe>
 	
 </appengine-web-app>
