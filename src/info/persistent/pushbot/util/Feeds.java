@@ -1,8 +1,9 @@
 package info.persistent.pushbot.util;
 
+import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
-import com.google.common.io.ByteStreams;
+import com.google.common.io.CharStreams;
 
 import com.sun.syndication.feed.atom.Entry;
 import com.sun.syndication.feed.rss.Guid;
@@ -19,9 +20,9 @@ import org.jdom.Element;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,30 +43,43 @@ public class Feeds {
     // Methods like {@link #getEntryId} rely on having access to the wire data
     input.setPreserveWireFeed(true);
     
-    byte[] inputBytes;
+    // Try to filter out control characters. We guess that the encoding is
+    // UTF-8, per https://groups.google.com/group/pubsubhubbub/browse_thread/thread/cea55f2a9caa64fc
+    // figuring out the real encoding requires too much bookkeeping.
+    String inputString = null;
     try {
-      inputBytes = ByteStreams.toByteArray(inputStream);
+      inputString = CharStreams.toString(
+          new InputStreamReader(inputStream, Charsets.UTF_8));
+      StringBuilder filteredInput = new StringBuilder();
+      for (int i = 0; i < inputString.length(); i++) {
+        char c = inputString.charAt(i);
+        if (c >= 0x20 || c == 0x9 || c == 0xA || c == 0xD) {
+          filteredInput.append(c);
+        }
+      }
+      inputStream = new ByteArrayInputStream(
+          filteredInput.toString().getBytes(Charsets.UTF_8));
     } catch (IOException err) {
-      logger.log(Level.WARNING, "Feed read error 1", err);
-      return null;
-   }    
+      logger.log(Level.WARNING, "Could not parse input as UTF-8, not " +
+            "removing possible control characters", err);
+    }
     
     try {
       try {
-        XmlReader xmlReader = new XmlReader(new ByteArrayInputStream(inputBytes));
+        XmlReader xmlReader = new XmlReader(inputStream);
         return input.build(xmlReader);
       } catch (IOException err) {
-        logger.log(Level.WARNING, "Feed read error 2", err);
-        logger.log(Level.WARNING, "Feed contents: " + new String(inputBytes, Charset.forName("UTF-8")));
+        logger.log(Level.WARNING, "Feed read error", err);
+        logger.log(Level.WARNING, "Feed contents: " + inputString);
         return null;
       }
     } catch (IllegalArgumentException err) {
       logger.log(Level.WARNING, "Feed parse error 1", err);
-      logger.log(Level.WARNING, "Feed contents: " + new String(inputBytes, Charset.forName("UTF-8")));
+      logger.log(Level.WARNING, "Feed contents: " + inputString);
       return null;
     } catch (FeedException err) {
       logger.log(Level.WARNING, "Feed parse error 2", err);
-      logger.log(Level.WARNING, "Feed contents: " + new String(inputBytes, Charset.forName("UTF-8")));
+      logger.log(Level.WARNING, "Feed contents: " + inputString);
       return null;
     }  
   }
