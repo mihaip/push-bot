@@ -32,7 +32,6 @@ public class ListSubscriptionsCommandHandler implements CommandHandler {
     for (String hubUrl : subscriptionsByHub.keySet()) {
       message.append("\n  at hub ").append(hubUrl).append(":");
       for (Subscription subscription : subscriptionsByHub.get(hubUrl)) {
-        System.err.println("Seen entry IDs: " + subscription.getSeenEntryIds());
         message.append("\n    ").append(subscription.getFeedUrl());
         String title = subscription.getTitle();
         if (title != null && !title.isEmpty()) {
