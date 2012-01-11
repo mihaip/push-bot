@@ -1,7 +1,7 @@
 package info.persistent.pushbot.util;
 
-import com.google.appengine.repackaged.com.google.common.base.Hash;
 import com.google.common.collect.Lists;
+import com.google.common.hash.Hashing;
 import com.google.common.io.ByteStreams;
 
 import com.sun.syndication.feed.atom.Entry;
@@ -19,7 +19,6 @@ import org.jdom.Element;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -149,12 +148,7 @@ public class Feeds {
    * Gets a hash code for the input string.
    */
   private static String hash(String s) {
-    try {
-      return Long.toHexString(Hash.hash64(s.getBytes("UTF-8")));
-    } catch (UnsupportedEncodingException err) {
-      // UTF-8 is unlikely to be unsupported
-      throw new RuntimeException(err);
-    }
+    return Hashing.murmur3_128().hashString(s).toString();
   }
   
   private Feeds() {

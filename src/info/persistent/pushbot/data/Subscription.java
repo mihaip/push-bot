@@ -11,6 +11,7 @@ import info.persistent.pushbot.util.Xmpp;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -99,18 +100,20 @@ public class Subscription {
         : ImmutableSet.<String>of();
   }
   
-  public void addSeenEntryId(String entryId) {
+  public void addSeenEntryIds(Collection<String> entryIds) {
     if (seenEntryIds == null) {
       seenEntryIds = Sets.newHashSet();
     }
-    if (seenEntryIds.size() >= MAX_SEEN_ENTRY_SIZE - 1) {
+    int maxSeenEntrySize = MAX_SEEN_ENTRY_SIZE - entryIds.size();
+    if (seenEntryIds.size() >= maxSeenEntrySize) {
       logger.warning("Subscription " + feedUrl.getValue() + " for " + user + 
-          " had " + seenEntryIds.size() + " entries, dropping some");
+          " had " + seenEntryIds.size() + " entries, dropping " +
+          (seenEntryIds.size() - maxSeenEntrySize));
       // Ideally we'd drop the oldest entries, but we don't store timestamps...
       seenEntryIds = Sets.newHashSet(
-          Lists.newArrayList(seenEntryIds).subList(0, MAX_SEEN_ENTRY_SIZE - 1));
+          Lists.newArrayList(seenEntryIds).subList(0, maxSeenEntrySize));
     }
-    seenEntryIds.add(entryId);
+    seenEntryIds.addAll(entryIds);
   }
   
   public static List<Subscription> getSubscriptionsForUser(JID user) {

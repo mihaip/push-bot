@@ -83,6 +83,7 @@ public class PushSubscriberServlet extends HttpServlet {
       if (!subscriptions.isEmpty()) {
         final Subscription subscription = subscriptions.get(0);
         Set<String> seenEntryIds = subscription.getSeenEntryIds();
+        List<String> newEntryIds = Lists.newArrayList();
         List<SyndEntry> filteredEntries = Lists.newArrayList();
         for (SyndEntry entry : entries) {
           String entryId = Feeds.getEntryId(entry);
@@ -91,10 +92,11 @@ public class PushSubscriberServlet extends HttpServlet {
             continue;
           }
           filteredEntries.add(entry);
-          subscription.addSeenEntryId(entryId);
+          newEntryIds.add(entryId);
         }
         
         if (!filteredEntries.isEmpty()) {
+          subscription.addSeenEntryIds(newEntryIds);
           Persistence.withManager(new Persistence.Closure() {
             @Override public void run(PersistenceManager manager) {
               manager.makePersistent(subscription);
@@ -105,6 +107,8 @@ public class PushSubscriberServlet extends HttpServlet {
         }
         
         entries = filteredEntries;
+      } else {
+        logger.warning("Got notification for feed without subscription " + feedUrl);
       }
     }
     
