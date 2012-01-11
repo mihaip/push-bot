@@ -7,7 +7,8 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/rome-1.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/json_simple-1.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/google-collect-1.0-rc2.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/rome-opml-0.1-fixed.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/guava-11.0.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-lang3-3.1.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

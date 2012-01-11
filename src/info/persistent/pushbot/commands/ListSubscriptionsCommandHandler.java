@@ -1,12 +1,13 @@
 package info.persistent.pushbot.commands;
 
 import com.google.appengine.api.xmpp.JID;
-import com.google.appengine.repackaged.com.google.common.base.StringUtil;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import info.persistent.pushbot.data.Subscription;
 import info.persistent.pushbot.util.Xmpp;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class ListSubscriptionsCommandHandler implements CommandHandler {
         String title = subscription.getTitle();
         if (title != null && !title.isEmpty()) {
           message.append(" (")
-              .append(StringUtil.unescapeHTML(title)).append(")");
+              .append(StringEscapeUtils.unescapeHtml4(title)).append(")");
         }
       }
     }

@@ -1,7 +1,7 @@
 package info.persistent.pushbot;
 
 import com.google.appengine.api.xmpp.JID;
-import com.google.appengine.repackaged.com.google.common.base.StringUtil;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 import com.sun.syndication.feed.synd.SyndEntry;
@@ -11,6 +11,8 @@ import info.persistent.pushbot.data.Subscription;
 import info.persistent.pushbot.util.Feeds;
 import info.persistent.pushbot.util.Persistence;
 import info.persistent.pushbot.util.Xmpp;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.io.IOException;
 import java.net.URL;
@@ -130,16 +132,16 @@ public class PushSubscriberServlet extends HttpServlet {
     }
     
     StringBuilder message = new StringBuilder("Update from ")
-        .append(StringUtil.unescapeHTML(feed.getTitle())).append(":");
+        .append(StringEscapeUtils.unescapeHtml4(feed.getTitle())).append(":");
     for (SyndEntry displayEntry : displayEntries) {
       String title = displayEntry.getTitle();
-      if (StringUtil.isEmptyOrWhitespace(title)) {
+      if (Strings.isNullOrEmpty(title)) {
         title = "(title unknown)";
       } else {
-        title = StringUtil.unescapeHTML(title);
+        title = StringEscapeUtils.unescapeHtml4(title);
       }
       String link = displayEntry.getLink();
-      if (StringUtil.isEmptyOrWhitespace(link)) {
+      if (Strings.isNullOrEmpty(link)) {
         link = "<no link>";
       }
       

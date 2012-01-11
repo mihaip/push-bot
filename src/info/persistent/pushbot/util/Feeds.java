@@ -1,8 +1,8 @@
 package info.persistent.pushbot.util;
 
 import com.google.appengine.repackaged.com.google.common.base.Hash;
-import com.google.appengine.repackaged.com.google.common.io.ByteStreams;
 import com.google.common.collect.Lists;
+import com.google.common.io.ByteStreams;
 
 import com.sun.syndication.feed.atom.Entry;
 import com.sun.syndication.feed.rss.Guid;
