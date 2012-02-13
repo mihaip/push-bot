@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 public class XmppReceiverServlet extends HttpServlet {
   private static Pattern PARTYCHAT_SENDER_RE =
-      Pattern.compile("^\\s*\\[\"[^\"]+\"\\]\\s*");
+      Pattern.compile("^\\s*\\[[^\\]]+]\\s*");
   private static Pattern PARTYCHAT_PREFIX_RE =
     Pattern.compile("^\\s*push-?bot:\\s*");
 
