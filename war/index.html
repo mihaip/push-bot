@@ -15,6 +15,12 @@
       font-size: 13px;
     }
 
+    #quota-warning {
+      background: #ffc;
+      padding: 1em;
+      margin: 1em;
+    }
+
     #header {
       background: #eee;
       border-bottom: solid 1px #ccc;
@@ -61,6 +67,10 @@
 <div id="content">
 
 <p>PuSH Bot lets you receive notifications via XMPP of updates to feeds that support <a href="pubsubhubbub.googlecode.com/">PubSubHubbub</a> (commonly abbreviated to PuSH). This means that you can receive updates from <a href="http://buzz.blogger.com/2009/08/blogger-joins-hubbub.html">Blogger</a>, <a href="http://everything.typepad.com/blog/2009/09/real-time-web-pushing-your-blogs.html">TypePad</a>, <a href="http://plugins.movabletype.org/pubsubhubbub/">Movable Type</a> and <a href="http://community.livejournal.com/changelog/7568973.html">LiveJournal</a> blogs, <A href="http://googlereader.blogspot.com/2009/08/pubsubhubbub-support-for-reader-shared.html">Google Reader shared items</a>, <a href="http://adsenseforfeeds.blogspot.com/2009/07/whats-all-hubbub-about-pubsubhubbub.html">any FeedBurner feed</a> and many other sources to <a href="http://www.google.com/talk">Google Talk</a> or any other Jabber/XMPP account.</p>
+
+<div id="quota-warning">
+PuSH Bot runs on App Engine, and does not have billing enabled. Thus it is likely that it will run out of <a href="https://developers.google.com/appengine/docs/quotas">quota</a> in the latter part of the day. If you're interested in reliability, you may wish to <a href="https://github.com/mihaip/push-bot">grab the code</a> and run your own instance.
+</div>
 
 <h2>Basic Usage</h2>
 
